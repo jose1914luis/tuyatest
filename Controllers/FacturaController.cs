@@ -4,18 +4,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace TestTuya.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FacturaController : ControllerBase
     {
         
-        [HttpPost]
-        public int Post(Factura factura)
+        public FacturaController (IConfiguration configuration)
         {
-            using (var db = new TuyaContext())
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+
+        [HttpPost("GenerarFactura")]
+        public ApiResponse GenerarFactura(Factura factura)
+        {
+            try{
+                using (var db = new TuyaContext(Configuration))
                 {
                     //crear primero la factura
                     db.Add(factura);
@@ -42,7 +52,21 @@ namespace TestTuya.Controllers
                     Console.WriteLine("Factura generada" + factura.FacturaId );
                     
                 }
-            return factura.FacturaId;
+                return new ApiResponse{
+                    code= 200,
+                    message = "" + factura.FacturaId,
+                    type = "Succes"            
+                };
+
+            }catch(Exception e){
+
+                return new ApiResponse{
+                    code= 201,
+                    message = e.Message,
+                    type = "Error"            
+                };
+            }
+            
         }
     }
 }

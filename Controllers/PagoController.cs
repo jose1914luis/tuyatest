@@ -8,44 +8,62 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace TestTuya.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class PagoController : ControllerBase
+    [Route("api/[controller]")]
+    public class  PagoController: ControllerBase
     {
             
 
-        private int facturaId;
-        private int pedidoId;
-        [HttpPost]
-        public string Post(Factura factura)
+        private ApiResponse apiResponse;
+
+        public PagoController (IConfiguration configuration)
+        {
+            Configuration = configuration;
+            apiResponse = new ApiResponse();
+        }
+
+        public IConfiguration Configuration { get; }
+
+        [HttpPost("GenerarPago")]
+        public ActionResult<ApiResponse> GenerarPago(Factura factura)
         {
 
-            GenerarFactura(factura);
-            
-            return "respuesta";
-        }
-
-        public async void GenerarFactura( Factura factura){
-
-            string url = "http://localhost:5000/Factura";
-            HttpServices httpServices = new HttpServices();
-            await httpServices.CallServices(factura, url);
-            factura.FacturaId = int.Parse(httpServices.responseBody);
-            
-            if(factura.FacturaId >0){
-                GenerarPedido(factura);
+            GenerarFactura(factura).Wait();
+            if(this.apiResponse.code == 200){
+                GenerarPedido(factura).Wait();
+                if(this.apiResponse.code == 200){
+                    return new ApiResponse{
+                        code= 200,
+                        message = "Factura Generada",
+                        type = "Succes"            
+                    };
+                }
             }
+            
+            return this.apiResponse;
+            
         }
-        
-        public async void GenerarPedido( Factura factura){
 
-            string url = "http://localhost:5000/Pedido";
+        [HttpPost("GenerarFactura")]
+        public async Task GenerarFactura( Factura factura){
+            
             HttpServices httpServices = new HttpServices();
-            await httpServices.CallServices(factura, url);
-            this.pedidoId = int.Parse(httpServices.responseBody);
+            this.apiResponse  = await httpServices.CallServices(factura, Configuration.GetValue<string>(
+                "AppServicesSettings:serviceFacturaURL"));
+                            
+
+        }
+        [HttpPost("GenerarPedido")]
+        public async Task GenerarPedido( Factura factura){
+
+            HttpServices httpServices = new HttpServices();
+            this.apiResponse = await httpServices.CallServices(factura, Configuration.GetValue<string>(
+                "AppServicesSettings:ServicePedidoURL"));                         
         }
         
     }
