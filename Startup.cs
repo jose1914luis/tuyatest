@@ -27,10 +27,23 @@ namespace TestTuya
         public void ConfigureServices(IServiceCollection services)
         {
 
+            Console.WriteLine(Configuration["BD"]);
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestTuya", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Pago API",
+                    Description = "ASP.NET Core Web API - API de pagos",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Jose Luis Garcia",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/jose1914luis"),
+                    }
+                });
             });
         }
 
