@@ -20,7 +20,7 @@ namespace TestTuya.Controllers{
 
                 // Pass the handler to httpclient(from you are calling api)
                 HttpClient client = new HttpClient(clientHandler);
-                HttpContent c = new StringContent(JsonConvert.SerializeObject(objecto));
+                HttpContent c = new StringContent(JsonConvert.SerializeObject(objecto), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, c);
                 response.EnsureSuccessStatusCode();
                 this.responseBody = await response.Content.ReadAsStringAsync();

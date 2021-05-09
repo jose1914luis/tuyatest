@@ -12,7 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace TestTuya.Controllers
-{
+{   /// <summary>
+    /// Clase controladora de pago.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class  PagoController: ControllerBase
@@ -20,6 +22,7 @@ namespace TestTuya.Controllers
             
 
         private ApiResponse apiResponse;
+
 
         public PagoController (IConfiguration configuration)
         {
@@ -29,6 +32,13 @@ namespace TestTuya.Controllers
 
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// permite generar una factura y posteriormente un pedido. En su conjunto procesan un pago
+        /// </summary>
+        /// <returns>Retorna un objecto tipo ApiResponse</returns>
+        /// <response code="200">ApiResponse.code = 200. message = Pago generado y procesado </response>
+        /// <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>        
+        
         [HttpPost("GenerarPago")]
         public ActionResult<ApiResponse> GenerarPago(Factura factura)
         {
@@ -39,7 +49,7 @@ namespace TestTuya.Controllers
                 if(this.apiResponse.code == 200){
                     return new ApiResponse{
                         code= 200,
-                        message = "Factura Generada",
+                        message = "Pago Generado y procesado",
                         type = "Succes"            
                     };
                 }
@@ -49,16 +59,38 @@ namespace TestTuya.Controllers
             
         }
 
+        /// <summary>
+        /// permite generar una factura desde el servicio de pagos
+        /// </summary>
+        /// <returns>Retorna un objecto tipo ApiResponse</returns>
+        /// <response code="200">ApiResponse.code = 200. Factura generada. message = FacturaId </response>
+        /// <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>
+       
         [HttpPost("GenerarFactura")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]  
         public async Task GenerarFactura( Factura factura){
             
             HttpServices httpServices = new HttpServices();
             this.apiResponse  = await httpServices.CallServices(factura, Configuration.GetValue<string>(
                 "AppServicesSettings:serviceFacturaURL"));
-                            
+             if(this.apiResponse.code == 200){
+                 factura.FacturaId = int.Parse(this.apiResponse.message);
+             }            
 
         }
+
+         
+        /// <summary>
+        /// permite generar un pedido desde el servicio de pagos
+        /// </summary>
+        /// <returns>Retorna un objecto tipo ApiResponse</returns>
+        /// <response code="200">ApiResponse.code = 200. Pedido generada. message = PedidoId </response>
+        /// <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>        
+        
         [HttpPost("GenerarPedido")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]  
         public async Task GenerarPedido( Factura factura){
 
             HttpServices httpServices = new HttpServices();

@@ -5,27 +5,32 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace TestTuya.Controllers
 {
+    /// <summary>
+    /// Clase controlador de la factura
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class FacturaController : ControllerBase
     {
         
-        public FacturaController (IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-
+       
+        /// <summary>
+        /// permite generar una factura
+        /// </summary>
+        /// <returns>Retorna un objecto tipo ApiResponse</returns>
+        /// <response code="200">ApiResponse.code = 200. Factura generada. message = FacturaId </response>
+        /// <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>
         [HttpPost("GenerarFactura")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]        
         public ApiResponse GenerarFactura(Factura factura)
         {
             try{
-                using (var db = new TuyaContext(Configuration))
+                using (var db = new TuyaContext())
                 {
                     //crear primero la factura
                     db.Add(factura);

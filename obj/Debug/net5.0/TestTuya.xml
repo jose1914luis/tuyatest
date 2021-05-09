@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TestTuya</name>
+    </assembly>
+    <members>
+        <member name="T:TestTuya.Controllers.FacturaController">
+            <summary>
+            Clase controlador de la factura
+            </summary>
+        </member>
+        <member name="M:TestTuya.Controllers.FacturaController.GenerarFactura(TestTuya.Factura)">
+            <summary>
+            permite generar una factura
+            </summary>
+            <returns>Retorna un objecto tipo ApiResponse</returns>
+            <response code="200">ApiResponse.code = 200. Factura generada. message = FacturaId </response>
+            <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>
+        </member>
+        <member name="T:TestTuya.Controllers.PagoController">
+            <summary>
+            Clase controladora de pago.
+            </summary>
+        </member>
+        <member name="M:TestTuya.Controllers.PagoController.GenerarPago(TestTuya.Factura)">
+            <summary>
+            permite generar una factura y posteriormente un pedido. En su conjunto procesan un pago
+            </summary>
+            <returns>Retorna un objecto tipo ApiResponse</returns>
+            <response code="200">ApiResponse.code = 200. message = Pago generado y procesado </response>
+            <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>        
+        </member>
+        <member name="M:TestTuya.Controllers.PagoController.GenerarFactura(TestTuya.Factura)">
+            <summary>
+            permite generar una factura desde el servicio de pagos
+            </summary>
+            <returns>Retorna un objecto tipo ApiResponse</returns>
+            <response code="200">ApiResponse.code = 200. Factura generada. message = FacturaId </response>
+            <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>
+        </member>
+        <member name="M:TestTuya.Controllers.PagoController.GenerarPedido(TestTuya.Factura)">
+            <summary>
+            permite generar un pedido desde el servicio de pagos
+            </summary>
+            <returns>Retorna un objecto tipo ApiResponse</returns>
+            <response code="200">ApiResponse.code = 200. Pedido generada. message = PedidoId </response>
+            <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>        
+        </member>
+        <member name="T:TestTuya.Controllers.PedidoController">
+            <summary>
+            Clase controlador del pedido
+            </summary>
+        </member>
+        <member name="M:TestTuya.Controllers.PedidoController.GenerarPedido(TestTuya.Factura)">
+            <summary>
+            permite generar un pedido
+            </summary>
+            <returns>Retorna un objecto tipo ApiResponse</returns>
+            <response code="200">ApiResponse.code = 200. Pedido generada. message = FacturaId </response>
+            <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>        
+        </member>
+    </members>
+</doc>

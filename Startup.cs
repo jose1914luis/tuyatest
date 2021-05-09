@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace TestTuya
         public void ConfigureServices(IServiceCollection services)
         {
 
+
             Console.WriteLine(Configuration["BD"]);
             
             services.AddControllers();
@@ -43,7 +45,11 @@ namespace TestTuya
                         Email = string.Empty,
                         Url = new Uri("https://github.com/jose1914luis"),
                     }
+                    
                 });
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "/home/jose/Documents/TestTuya/bin/Debug/net5.0/TestTuya.xml");
+                c.IncludeXmlComments(filePath);
             });
         }
 
