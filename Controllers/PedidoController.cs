@@ -8,24 +8,28 @@ using Microsoft.Extensions.Configuration;
 
 namespace TestTuya.Controllers
 {
+    /// <summary>
+    /// Clase controlador del pedido
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class PedidoController : ControllerBase
     {
-        public PedidoController (IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-       [HttpPost("GenerarPedido")]
+        /// <summary>
+        /// permite generar un pedido
+        /// </summary>
+        /// <returns>Retorna un objecto tipo ApiResponse</returns>
+        /// <response code="200">ApiResponse.code = 200. Pedido generada. message = PedidoId </response>
+        /// <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>        
+        [HttpPost("GenerarPedido")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]      
         public ApiResponse GenerarPedido(Factura factura)
         {
             try{
                 
                 Pedido pedido = new Pedido();
-                using (var db = new TuyaContext(Configuration))
+                using (var db = new TuyaContext())
                     {
                         
                         pedido.FacturaId = factura.FacturaId;
