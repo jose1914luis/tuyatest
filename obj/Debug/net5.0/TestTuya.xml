@@ -22,6 +22,11 @@
             Clase controladora de pago.
             </summary>
         </member>
+        <member name="M:TestTuya.Controllers.PagoController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Injeccion de dependia de configuracion 
+            </summary>
+        </member>
         <member name="M:TestTuya.Controllers.PagoController.GenerarPago(TestTuya.Factura)">
             <summary>
             permite generar una factura y posteriormente un pedido. En su conjunto procesan un pago
@@ -56,8 +61,13 @@
             permite generar un pedido
             </summary>
             <returns>Retorna un objecto tipo ApiResponse</returns>
-            <response code="200">ApiResponse.code = 200. Pedido generada. message = FacturaId </response>
+            <response code="200">ApiResponse.code = 200. Pedido generada. message = PedidoId </response>
             <response code="201">ApiResponse.code = 201. Error. message = Mensaje del error</response>        
+        </member>
+        <member name="T:TestTuya.Controllers.HttpServices">
+            <summary>
+            Clase para llamar los servicios REST
+            </summary>
         </member>
     </members>
 </doc>

@@ -48,7 +48,7 @@ namespace TestTuya
                     
                 });
 
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, "/home/jose/Documents/TestTuya/bin/Debug/net5.0/TestTuya.xml");
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, Environment.CurrentDirectory+"/bin/Debug/net5.0/TestTuya.xml");
                 c.IncludeXmlComments(filePath);
             });
         }

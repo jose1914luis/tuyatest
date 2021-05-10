@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 
 namespace TestTuya.Controllers{
 
+    /// <summary>
+    /// Clase para llamar los servicios REST
+    /// </summary>
     public class HttpServices{
 
         public string responseBody;

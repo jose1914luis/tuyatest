@@ -23,7 +23,9 @@ namespace TestTuya.Controllers
 
         private ApiResponse apiResponse;
 
-
+        /// <summary>
+        /// Injeccion de dependia de configuracion 
+        /// </summary>
         public PagoController (IConfiguration configuration)
         {
             Configuration = configuration;

@@ -13,7 +13,7 @@ namespace TestTuya
         public static void Main(string[] args)
         {
             //
-            
+            //Console.WriteLine();
             Console.WriteLine("Por favor ingresa una opcion:");
             Console.WriteLine("1. Ingresar los datos a la BD y ejecutar el Servidor");
             Console.WriteLine("2. Ejecutar el servidor");

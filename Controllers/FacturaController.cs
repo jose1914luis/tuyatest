@@ -54,7 +54,7 @@ namespace TestTuya.Controllers
                     factura.TotalFactura = total;
 
                     db.SaveChanges();
-                    Console.WriteLine("Factura generada" + factura.FacturaId );
+                    Console.WriteLine("Factura generada. FacturaId: " + factura.FacturaId );
                     
                 }
                 return new ApiResponse{

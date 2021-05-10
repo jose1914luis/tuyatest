@@ -39,7 +39,7 @@ namespace TestTuya.Controllers
                         //crear primero la factura
                         db.Add(pedido);
                         db.SaveChanges();
-
+                        Console.WriteLine("Pedido generada. PedidoId: " + pedido.PedidoId );
                         
                     }
                 return new ApiResponse{
